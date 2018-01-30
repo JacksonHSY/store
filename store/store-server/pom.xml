@@ -1,0 +1,218 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.ymkj.store</groupId>
+		<artifactId>store-parent</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>store-server</artifactId>
+	<packaging>war</packaging>
+	<name>store-server Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	
+	<dependencies>
+		<dependency>
+		    <groupId>com.ymkj</groupId>
+		    <artifactId>base-core-web</artifactId>
+		    <version> 0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.ymkj.store</groupId>
+			<artifactId>store-common</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+	
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>3.8</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.apache.commons</groupId>
+		  <artifactId>commons-lang3</artifactId>
+		  <version>3.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.3.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- j2ee web spec -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<!-- WEB end -->		
+		
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>1.9.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis.caches</groupId>
+			<artifactId>mybatis-ehcache</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+	
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+			<version>4.1.3</version>
+		</dependency>
+		
+		<!-- 连接池 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${druid.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>5.1.42</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<!-- 批量下载-->
+		<dependency>  
+ 			 <groupId>ant</groupId>  
+ 			 <artifactId>ant</artifactId>  
+  			 <version>1.6.5</version>  
+		</dependency> 
+		
+		<!-- 单点登录-->
+		<dependency>
+		    <groupId>com.ymkj</groupId>
+		    <artifactId>sso-client</artifactId>
+		    <version>1.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.ymkj</groupId>
+		    <artifactId>pms-biz-api</artifactId>
+		    <version>1.0-SNAPSHOT </version>
+		</dependency> 
+	</dependencies>
+	<build>
+		<finalName>store-server</finalName>
+		<defaultGoal>compile</defaultGoal>
+
+		<!-- 配置插件 -->
+		<plugins>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<configuration>
+					<reload>manual</reload>
+					<!--<scanIntervalSeconds>2</scanIntervalSeconds> -->
+					<stopPort>9999</stopPort>
+					<webAppConfig>
+						<contextPath>/store</contextPath>
+					</webAppConfig>
+					<connectors>
+						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+							<port>7070</port>
+							<!--<maxIdleTime>60000</maxIdleTime> -->
+						</connector>
+					</connectors>
+					<!-- spring profile -->
+					<systemProperties>
+						<systemProperty>
+							<name>spring.profiles.active</name>
+							<value>development</value>
+						</systemProperty>
+					</systemProperties>
+				</configuration>
+			</plugin>
+			<!-- 去掉测试 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+		</plugins>
+		<!-- 如果不添加此节点mybatis的mapper.xml文件都会被漏掉。 -->
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+	</build>
+</project>

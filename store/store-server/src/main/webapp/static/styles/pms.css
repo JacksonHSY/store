@@ -1,0 +1,109 @@
+.header {
+    font-size: 14px;
+    height: 42px;
+    background-color: #444444;
+    border-bottom: 1px solid #dddddd;
+}
+
+.logo1 {
+    background:url(../images/logo.png) top left;
+    background-size:cover;
+    overflow:hidden;
+    height: 32px;
+    width:271px;
+    float:left;
+    margin-left:5px;
+    margin-right:10px;
+}
+
+.logo2{
+    font-size: 18px;
+    margin-top:5px;
+    float:left;
+}
+
+.header .panel {
+    padding: 4px 20px 0px 0px;
+}
+
+.fa {
+    font-size: 16px;
+}
+
+.header .l-btn-text {
+    font-size: 12px;
+}
+
+.header:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+#theme .menu-line {
+    border: none;
+}
+
+#theme .menu-item .menu-text {
+    padding-left: 15px;
+}
+
+.default {
+    background-image: url(../images/login_bg.jpg);
+    background-repeat: repeat-x;
+    background-color: #1d8bd8;
+    background-position: top center;
+    overflow: hidden;
+}
+
+#switch .content {
+    font-size: 18px;
+    padding-top: 30px;
+    padding-left: 50px;
+}
+
+#switch .content select {
+    font-size: 15px;
+}
+
+#switch .window .window-header {
+    padding: 10px 4px;
+}
+
+#switch .window-shadow {
+    width: 396px;
+}
+
+.circleNumber {
+    font-size: 450%;
+    color: green;
+    font-weight: 600;
+}
+
+.datagrid-cell, .datagrid-cell-group, .datagrid-header-rownumber, .datagrid-cell-rownumber {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+}
+.tooltip {
+    background-color: rgb(102, 102, 102);
+    border-color: rgb(102, 102, 102);
+    color: #fff;
+    max-width: 300px;
+}
+
+.org-root{
+    background-image: url('../images/org_root.png');
+    background-position: top center;
+    background-size: 18px;
+    overflow: hidden;
+}
+
+.datebox .textbox-text {
+    cursor: pointer;
+}
+
+.pagination .pagination-num{
+    width:3em;
+}

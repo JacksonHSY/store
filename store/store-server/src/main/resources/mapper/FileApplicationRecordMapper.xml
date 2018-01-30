@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ymkj.store.server.mapper.FileApplicationRecordMapper">
+  <resultMap id="BaseResultMap" type="com.ymkj.store.server.entity.FileApplicationRecord">
+
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="FILE_UPLOAD_ID" jdbcType="BIGINT" property="fileUploadId" />
+    <result column="FLOW_STATUS" jdbcType="VARCHAR" property="flowStatus" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="USER_NUM" jdbcType="VARCHAR" property="userNum" />
+    <result column="APPLICATION_DESC" jdbcType="VARCHAR" property="applicationDesc" />
+    <result column="MEMO" jdbcType="VARCHAR" property="memo" />
+    <result column="AUDITOR_NAME" jdbcType="VARCHAR" property="auditorName" />
+    <result column="AUDITOR_NO" jdbcType="VARCHAR" property="auditorNo" />
+    <result column="APPLY_TIME" jdbcType="TIMESTAMP" property="applyTime" />
+    <result column="AUDIT_TIME" jdbcType="TIMESTAMP" property="auditTime" />
+    <result column="CUSTOMER_NAME" jdbcType="VARCHAR" property="customerName" />
+    <result column="APPLICATION_CASE_NO" jdbcType="VARCHAR" property="applicationCaseNo" />
+    <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName" />
+    <result column="FILE_TYPE" jdbcType="VARCHAR" property="fileType" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="FILE_SIZE" jdbcType="DECIMAL" property="fileSize" />
+    <result column="FILE_KEY" jdbcType="DECIMAL" property="fileKey" />
+    <result column="UPLOAD_TIME" jdbcType="TIMESTAMP" property="uploadTime" />
+    <result column="REFUSAL_REASONS" jdbcType="VARCHAR" property="refusalReasons" />
+  </resultMap>
+  
+  <select id="getFileManagementList"  parameterType="Map" resultMap="BaseResultMap">
+  		select 
+  		t.APPLICATION_DESC,
+  		t.APPLY_TIME,
+  		t.FLOW_STATUS,
+  		t.MEMO as REFUSAL_REASONS,
+		lt.CUSTOMER_NAME,
+		lt.APPLICATION_CASE_NO,
+		lt.FILE_KEY,
+		lt.FILE_NAME,
+		lt.FILE_SIZE,
+		lt.FILE_TYPE,
+		lt.UPLOAD_TIME
+		FROM file_application_record t
+		LEFT JOIN file_upload_record lt ON t.FILE_UPLOAD_ID = lt.ID
+		where 1=1 
+		<if test="userNum!= null and userNum!= '' ">  
+          and t.USER_NUM = #{userNum} 
+        </if>
+		<if test="customerName!= null and customerName!= '' ">  
+          AND lt.CUSTOMER_NAME LIKE concat(concat('%', #{customerName}),'%')
+        </if> 
+        <if test="fileKey!= null and fileKey!= '' ">  
+          AND lt.FILE_KEY = #{fileKey}   
+        </if> 
+        <if test="applicationCaseNo!= null and applicationCaseNo!= '' ">  
+          AND lt.APPLICATION_CASE_NO = #{applicationCaseNo}   
+        </if> 
+        <if test="flowStatus!= null and flowStatus!= '' ">  
+          AND t.FLOW_STATUS = #{flowStatus}   
+        </if> 
+        <if test="fileType!= null and fileType!= '' ">  
+          AND lt.FILE_TYPE = #{fileType}   
+        </if> 
+       <if test="applyDateBegin!=null and applyDateBegin!=''">  
+          AND date_format(t.APPLY_TIME,'%Y-%m-%d %h:%i:%s') >= #{applyDateBegin} 
+       </if>  
+       <if test="applyDateEnd!=null and applyDateEnd!=''">  
+           AND date_format(t.APPLY_TIME,'%Y-%m-%d %h:%i:%s') &lt;= #{applyDateEnd}
+       </if> 
+       <if test="uploadDateBegin!=null and uploadDateBegin!=''">  
+          AND date_format(lt.UPLOAD_TIME,'%Y-%m-%d %h:%i:%s') >= #{uploadDateBegin} 
+       </if>  
+       <if test="uploadDateEnd!=null and uploadDateEnd!=''">  
+           AND date_format(lt.UPLOAD_TIME,'%Y-%m-%d %h:%i:%s') &lt;= #{uploadDateEnd}
+       </if> 
+       order by lt.UPLOAD_TIME desc
+  </select>
+  		<select id="getFileApplyList"  parameterType="Map" resultMap="BaseResultMap">
+  		select 
+  		t.id,
+  		t.APPLICATION_DESC,
+  		t.APPLY_TIME,
+  		t.AUDIT_TIME,
+  		t.FLOW_STATUS,
+  		t.USER_NAME,
+  		t.USER_NUM,
+  		t.AUDITOR_NAME,
+  		t.AUDITOR_NO,
+  		t.MEMO as REFUSAL_REASONS,
+		lt.CUSTOMER_NAME,
+		lt.APPLICATION_CASE_NO,
+		lt.FILE_KEY,
+		lt.CERTIFY_BUSINESS_DEPART,
+		lt.FILE_NAME,
+		lt.FILE_SIZE,
+		lt.FILE_TYPE,
+		lt.UPLOAD_TIME,
+		lt.STATUS
+		FROM file_application_record t
+		LEFT JOIN file_upload_record lt ON t.FILE_UPLOAD_ID = lt.ID
+		where 1=1
+		<if test="customerName!= null and customerName!= '' ">  
+          AND lt.CUSTOMER_NAME LIKE concat(concat('%', #{customerName}),'%')   
+        </if> 
+        <if test="fileKey!= null and fileKey!= '' ">  
+          AND lt.FILE_KEY = #{fileKey}   
+        </if> 
+        <if test="applicationCaseNo!= null and applicationCaseNo!= '' ">  
+          AND lt.APPLICATION_CASE_NO = #{applicationCaseNo}   
+        </if> 
+        <if test="flowStatus!= null and flowStatus!= '' ">  
+          AND t.FLOW_STATUS = #{flowStatus}   
+        </if> 
+        <if test="fileType!= null and fileType!= '' ">  
+          AND lt.FILE_TYPE = #{fileType}   
+        </if> 
+         <if test="certifyBusinessDepart!= null and certifyBusinessDepart!= '' ">  
+          AND lt.CERTIFY_BUSINESS_DEPART = #{certifyBusinessDepart}   
+        </if> 
+       <if test="applyDateBegin!=null and applyDateBegin!=''">  
+          AND date_format(t.APPLY_TIME,'%Y-%m-%d %h:%i:%s') >= #{applyDateBegin} 
+       </if>  
+       <if test="applyDateEnd!=null and applyDateEnd!=''">  
+           AND date_format(t.APPLY_TIME,'%Y-%m-%d %h:%i:%s') &lt;= #{applyDateEnd}
+       </if> 
+       <if test="uploadDateBegin!=null and uploadDateBegin!=''">  
+          AND date_format(lt.UPLOAD_TIME,'%Y-%m-%d %h:%i:%s') >= #{uploadDateBegin} 
+       </if>  
+       <if test="uploadDateEnd!=null and uploadDateEnd!=''">  
+           AND date_format(lt.UPLOAD_TIME,'%Y-%m-%d %h:%i:%s') &lt;= #{uploadDateEnd}
+       </if> 
+       <if test="dealDateBegin!=null and dealDateBegin!=''">  
+          AND date_format(t.AUDIT_TIME,'%Y-%m-%d %h:%i:%s') >= #{dealDateBegin} 
+       </if>  
+       <if test="dealDateEnd!=null and dealDateEnd!=''">  
+           AND date_format(t.AUDIT_TIME,'%Y-%m-%d %h:%i:%s') &lt;= #{dealDateEnd}
+       </if>
+  </select>
+  <update id="updateByCondition" parameterType="java.util.Map" >
+  			update file_application_record 
+  			<set>
+  			<if test="flowstatus!=null and flowstatus!=''">  
+  				FLOW_STATUS = #{flowstatus}
+  			</if>
+  			<if test="name!=null and name!=''">  
+  				,AUDITOR_NAME = #{name}
+  			</if>
+  				<if test="auditorNo!=null and auditorNo!=''">  
+  				,AUDITOR_NO = #{auditorNo}
+  			</if>
+  			<if test="auditTime!=null and auditTime!=''">  
+  				,AUDIT_TIME = #{auditTime}
+  			</if>
+  			<if test="reason!=null and reason!=''">  
+  				,MEMO=#{reason}
+  			</if>
+  			</set>
+  			 where id in ${idList}
+  </update>
+   <update id="updateByConditionForUpload" parameterType="java.util.Map" >
+  			update file_application_record 
+  			<set>
+  			<if test="memo!=null and memo!=''">  
+  				MEMO=#{memo}
+  			</if>
+  			</set>
+  			 where FILE_UPLOAD_ID in ${uploadIds}
+  </update>
+</mapper>

@@ -1,0 +1,70 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* 全局CSS */
+html{height:100%;}
+body{ 
+	padding: 0px;
+	margin: 0px;
+	height:100%;
+	FONT: 12px/1.6em "微软雅黑", Verdana, Arial, sans-serif;
+	text-align:center;
+	background-color:#ffffff;
+}
+.error{
+	background-color:#e1eff0;
+	position:relative;
+	}
+.error_pic{
+	width:100%;
+	height:100%;
+	float:left;
+	position:absolute;
+	bottom:0px;
+	left:0px;
+	}
+.error_text{
+	width:500px;
+	position:absolute;
+	top:370px;
+	left:50%;
+	margin-left:-250px;
+	text-align:center;
+	color:#0e62a4;
+	font-size:14px;
+	}
+.error_text .bold{
+	font-size:21px;
+	font-weight:bold;
+	}
+.error_k{
+	width:640px;
+	position:absolute;
+	top:150px;
+	left:50%;
+	margin-left:-320px;
+	text-align:center;
+	}
+.error_btn{
+	width:220px;
+	position:absolute;
+	top:535px;
+	left:50%;
+	margin-left:-110px;
+	text-align:center;
+	cursor:pointer;
+	}
+.index_img{
+	background-image:url(../images/bg_index.jpg);
+	background-position:left center;
+	background-repeat:no-repeat;
+}
+.index_img_btn{
+	width:150px;
+	position:absolute;
+	top:235px;
+	left:50%;
+	margin-left:-75px;
+	text-align:center;
+	cursor:pointer;
+}

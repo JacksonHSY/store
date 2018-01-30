@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+	
+	<!-- 加载配置文件 -->
+	<!-- <context:property-placeholder ignore-unresolvable="true" location="classpath:resource/jdbc.properties" /> -->
+
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		destroy-method="close">
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<!-- 密码加密，必须有filter属性，否则数据库拒绝连接 -->
+		<property name="filters" value="config" />
+		<property name="connectionProperties" value="${jdbc.connectionProperties}" />
+		<property name="maxActive" value="10" />
+		<property name="minIdle" value="5" />
+		
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->  
+        <property name = "timeBetweenEvictionRunsMillis" value ="${timeBetweenEvictionRunsMillis}" />  
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->  
+        <property name = "minEvictableIdleTimeMillis" value ="${minEvictableIdleTimeMillis}" />    
+        <property name = "validationQuery" value = "${validationQuery}" />    
+        <property name = "testWhileIdle" value = "${testWhileIdle}" />    
+        <property name = "testOnBorrow" value = "${testOnBorrow}" />    
+        <property name = "testOnReturn" value = "${testOnReturn}" />
+	</bean>
+	
+	<!-- oracle -->
+	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:mapper/**/*Mapper.xml</value>
+			</list>
+		</property>
+		<property name="configLocation" value="classpath:spring/mybatis-config.xml"/>
+		<property name="plugins">
+	      <array>
+	        <bean class="com.github.pagehelper.PageHelper">
+	          <!-- 这里的几个配置主要演示如何使用，如果不理解，一定要去掉下面的配置 -->
+	          <property name="properties">
+	            <value>
+	              dialect=mysql
+	              <!-- 3.3.0版本可用 - 分页参数合理化，默认false禁用 -->
+	              <!-- 启用合理化时，如果pageNum<1会查询第一页，如果pageNum>pages会查询最后一页 -->
+	              <!-- 禁用合理化时，如果pageNum<1或pageNum>pages会返回空数据 -->
+	              reasonable=true
+	              <!-- 支持通过Mapper接口参数来传递分页参数 -->
+	              supportMethodsArguments=true
+	              <!-- always总是返回PageInfo类型,check检查返回类型是否为PageInfo,none返回Page -->
+	              returnPageInfo=check
+	              <!-- 自定义参数名 -->
+	              <!--params=count=countSql-->
+	            </value>
+	          </property>
+	        </bean>
+	      </array>
+	    </property>
+	</bean>
+	
+  <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+  		<!-- 配置扫描包，加载mapper代理对象 -->
+        <property name="basePackage" value="com.ymkj.store.server.mapper"/>
+        <!--<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>-->
+        <!-- 3.2.2版本新特性，markerInterface可以起到mappers配置的作用，详细情况需要看Marker接口类 -->
+        <!--<property name="markerInterface" value="com.zdmoney.common.mybatis.mapper.JdMapper"/>-->
+        <property name="properties">
+            <value>
+                ORDER=BEFORE
+                mappers=tk.mybatis.mapper.common.Mapper
+            </value>
+        </property>
+    </bean>
+	
+</beans>
