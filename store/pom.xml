@@ -58,25 +58,9 @@
 	</properties>
 	
   <repositories>
-		<repository>
-			<id>nexus</id>
-			<name>Team Nexus Repository</name>
-			<url>http://nexus.yuminsoft.local/content/groups/public</url>
-		</repository>
+		
 	</repositories>
 
-	<distributionManagement>
-		<repository>
-			<id>releases</id>
-			<name>Internal Releases</name>
-			<url>http://nexus.yuminsoft.local/content/repositories/releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<name>Snapshots</name>
-			<url>http://nexus.yuminsoft.local/content/repositories/snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
 
 	<build>
 		<pluginManagement>
